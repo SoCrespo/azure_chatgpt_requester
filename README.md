@@ -88,10 +88,6 @@ The `AzureChatGPTRequester` class includes a retry strategy for handling timeout
 
 - `ask(text: str)`: Make a request to the GPT model with a text and apply the retry strategy on timeouts. Returns the response as a string.
 
-## Example
-
-You can find an example of how to use this code in the [example.py](example.py) file included in this repository.
-
 ## License
 
 This code is provided under the [MIT License](LICENSE). You are free to use and modify it for your own purposes.
