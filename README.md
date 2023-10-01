@@ -1,8 +1,8 @@
-# AzureChatGPT Requester
+# Simple Azure ChatGPT Requester
 
-This is a Python class for making requests to the Azure ChatGPT  model. It allows you to send a prompt and content to the API and get the response as string. 
+This is a Python class for making requests to the Azure ChatGPT model. It allows you to send a prompt and content to the API and get the response as string. 
 
-Warning: as is, this code is stateless: it does not keep track of the conversation history. In other words, each request is independent from the previous ones. If you want to keep track of the conversation history, you need to modify the code to keep track of the previous requests and send them along with the new request.
+Warning: as is, this code is stateless: it does not keep track of the conversation history. In other words, each request is independent from the previous ones. 
 
 ## Table of Contents
 - [Prerequisites](#prerequisites)
@@ -16,30 +16,33 @@ Warning: as is, this code is stateless: it does not keep track of the conversati
 
 ## Prerequisites
 
-We recommend using a virtual environment to install the required Python libraries. You can create a virtual environment using `venv`:
+1. Before using this code, make sure you have Python 3.10 or higher installed.
+
+2. We recommend using a virtual environment to install the required Python libraries. You can create a virtual environment using `venv`:
 
 ```bash
-python -m venv venv
+python -m venv ./.venv
 ```
+Then, activate the virtual environment:
 
-Before using this code, make sure you have the following:
-
-- Python 3.6 or higher installed.
-- Required Python libraries installed. You can install them using `pip`:
-
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-## Getting Started
-
-1. Clone or download this repository to your local machine.
-
-2. Import the `AzureChatGPTRequester` class into your Python script:
+```bash
+source ./.venv/bin/activate
+```
+(may vary according to your operating system and shell)
     
-        ```python
-        from azure_chatgpt import AzureChatGPTRequester
-        ```
+3. Install the library:
+```bash
+pip install git+https://github.com/SoCrespo/simple_az_chatgpt_requester.git
+```
+4. Create an Azure account and subscribe to the [Azure ChatGPT model](https://azure.microsoft.com/en-us/services/cognitive-services/chatbot/). You will need to create a resource group and a resource of type "Cognitive Services". You will also need to create a deployment of the GPT model. You can find more information on how to do this [here](https://learn.microsoft.com/fr-fr/azure/ai-services/openai/how-to/create-resource?pivots=web-portal#create-a-resource). Subscription to this service is submitted to application.
+
+You'll get the following information from your Azure account, which you'll need to use this code:
+- API base URL
+- API key
+- API version
+- Deployment name.
+
+
 
 ## Usage
 
@@ -47,7 +50,7 @@ The `AzureChatGPTRequester` class allows you to make requests to the Azure GPT m
 
 ```python
 # Import the class
-from azure_chatgpt_requester import AzureChatGPTRequester
+from azure_chatgpt import AzureChatGPTRequester
 
 # Create an instance of the requester
 requester = AzureChatGPTRequester(
@@ -66,17 +69,20 @@ print(response)
 
 You need to provide the following configuration parameters when creating an instance of `AzureChatGPTRequester`:
 
+Mandatory:
 - `api_base`: Base URL of the GPT model in Azure.
 - `api_key`: API key to access the GPT model.
 - `api_version`: Version of the GPT model.
 - `deployment_name`: Name of the deployment of the GPT model on Azure.
-- `assistant_message` (optional): An optional prompt to the GPT model to orientate the conversation tone.
-- `temperature`: Temperature parameter of the GPT model. It controls the randomness of the generated responses. A lower value makes the responses more conservative.
-- `timeout_connect`: Timeout in seconds to reach the GPT model.
-- `timeout_read`: Timeout in seconds to read the response from the GPT model.
-- `initial_sleep_time`: Initial sleep time in seconds before retrying to reach the GPT model.
-- `max_retries`: Maximum number of retries to reach the GPT model in case of timeouts.
-- `token_limit`: Maximum number of tokens to send to the GPT model. The GPT 3.5 standard model has a limit of 4,096 tokens.
+
+Optional:
+- `assistant_message` (optional): An optional prompt to the GPT model to orientate the conversation tone. Default is "You are a concise assistant".
+- `temperature`: Temperature parameter of the GPT model. It controls the randomness of the generated responses. A lower value makes the responses more conservative. Default is 0.1.
+- `timeout_connect`: Timeout in seconds to reach the GPT model. Default is 10 seconds.
+- `timeout_read`: Timeout in seconds to read the response from the GPT model. Default is 60 seconds.
+- `initial_sleep_time`: Initial sleep time in seconds before retrying to reach the GPT model. Default is 10 second.
+- `max_retries`: Maximum number of retries to reach the GPT model in case of timeouts. Default is 3.
+- `token_limit`: Maximum number of tokens to send to the GPT model. Default is the GPT 3.5 standard model limit of 4,096 tokens.
 
 ## Retry Strategy
 

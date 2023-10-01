@@ -20,7 +20,7 @@ class AzureChatGPTRequester:
         api_key: str,
         api_version: str,
         deployment_name: str,
-        assistant_message: str = '',
+        assistant_message: str = "You are a concise assistant.",
         temperature: float = 0.1,
         timeout_connect=10,
         timeout_read=60,
@@ -30,18 +30,22 @@ class AzureChatGPTRequester:
               ):
         """
         Initialize the class with the following parameters:
+
+        Mandatory parameters:
         - api_uri: base uri of the GPT model in Azure. Example: "https://my-open-ai-service.openai.azure.com/' 
         - api_key: key to access the GPT model.
         - api_version: version of the GPT model.
         - deployment_name: name of the deployment of the GPT model on Azure.
-        - assistant_message: optional prompt to GPT model to orientate the conversation tone.
-        - temperature: temperature parameter of the GPT model. Between 0 and 1. The lower the temperature, the more conservative the GPT model.
-        - timeout_connect: timeout in seconds to reach the GPT model.
-        - timeout_read: timeout in seconds to read the response from the GPT model.
-        - initial_sleep_time: initial sleep time in seconds before retrying to reach the GPT model.
+        
+        Optional parameters:
+        - assistant_message: optional prompt to GPT model to orientate the conversation tone. Default: "You are a concise assistant."
+        - temperature: temperature parameter of the GPT model. Between 0 and 1. The lower the temperature, the more conservative the GPT model. Default: 0.1
+        - timeout_connect: timeout in seconds to reach the GPT model. Default: 10 seconds.
+        - timeout_read: timeout in seconds to read the response from the GPT model. Default: 60 seconds.
+        - initial_sleep_time: initial sleep time in seconds before retrying to reach the GPT model. Default: 10 seconds.
         - max_retries: maximum number of retries to reach the GPT model. On each retry, sleep during
-        - self.initial_sleep_time seconds * retry number.
-        - token_limit: maximum number of tokens to send to the GPT model. The GPT 3.5 standard model has a limit of 4_096 tokens.
+        - self.initial_sleep_time seconds * retry number. Default: 3 retries.
+        - token_limit: maximum number of tokens to send to the GPT model. Default: 4_096 tokens.
 
         """
         self.api_uri = api_uri
