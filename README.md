@@ -28,14 +28,18 @@ Before using this code, make sure you have the following:
 - Required Python libraries installed. You can install them using `pip`:
 
     ```bash
-    pip install requests
+    pip install -r requirements.txt
     ```
 
 ## Getting Started
 
 1. Clone or download this repository to your local machine.
 
-2. Import the `AzureChatGPTRequester` class into your Python script.
+2. Import the `AzureChatGPTRequester` class into your Python script:
+    
+        ```python
+        from azure_chatgpt import AzureChatGPTRequester
+        ```
 
 ## Usage
 
