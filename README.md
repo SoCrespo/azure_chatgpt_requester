@@ -1,6 +1,6 @@
-# Simple Azure ChatGPT Requester
+# Simple MS Azure ChatGPT Requester
 
-This is a Python class for making requests to the Azure ChatGPT model. It allows you to send a prompt and content to the API and get the response as string. 
+This is a Python class for making requests to the Microsoft Azure ChatGPT model. It allows you to send a prompt and content to the API and get the response as string. 
 
 Warning: as is, this code is stateless: it does not keep track of the conversation history. In other words, each request is independent from the previous ones. 
 
@@ -32,7 +32,7 @@ source ./.venv/bin/activate
     
 3. Install the library:
 ```bash
-pip install git+https://github.com/SoCrespo/simple_az_chatgpt_requester.git
+pip install git+https://github.com/SoCrespo/ms_chatgpt_requester.git
 ```
 4. Create an Azure account and subscribe to the [Azure ChatGPT model](https://azure.microsoft.com/en-us/services/cognitive-services/chatbot/). You will need to create a resource group and a resource of type "Cognitive Services". You will also need to create a deployment of the GPT model. You can find more information on how to do this [here](https://learn.microsoft.com/fr-fr/azure/ai-services/openai/how-to/create-resource?pivots=web-portal#create-a-resource). Subscription to this service is submitted to application.
 
