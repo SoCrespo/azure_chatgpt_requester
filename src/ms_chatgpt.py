@@ -9,9 +9,9 @@ import requests
 logging.basicConfig(level=logging.INFO)
 
 
-class AzureChatGPTRequester:
+class MsChatGPTRequester:
     """
-    Requester class for the Azure GPT model.
+    Requester class for the Microsoft Azure GPT model.
     """
 
     def __init__(

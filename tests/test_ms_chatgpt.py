@@ -2,12 +2,12 @@ import pytest
 from unittest.mock import patch, Mock
 
 
-from azure_chatgpt_requester.src.azure_chatgpt import AzureChatGPTRequester
+from simple_az_chatgpt_requester.src.ms_chatgpt import MsChatGPTRequester
 
-# Helper function to create an AzureChatGPTRequester instance for testing
+# Helper function to create an MsChatGPTRequester instance for testing
 def create_requester():
-    return AzureChatGPTRequester(
-        api_base="your_api_base",
+    return MsChatGPTRequester(
+        api_uri="your_api_uri",
         api_key="your_api_key",
         api_version="your_api_version",
         deployment_name="your_deployment_name",
@@ -21,20 +21,20 @@ def test_init():
 
 def test_init_missing_required_parameters():
     with pytest.raises(TypeError):
-        AzureChatGPTRequester(
-            api_base="your_api_base",
+        MsChatGPTRequester(
+            api_uri="your_api_uri",
             api_key="your_api_key",
             api_version="your_api_version",
         )
 
 def test_init_default_values():
-    requester = AzureChatGPTRequester(
-        api_base="your_api_base",
+    requester = MsChatGPTRequester(
+        api_uri="your_api_uri",
         api_key="your_api_key",
         api_version="your_api_version",
         deployment_name="your_deployment_name",
     )
-    assert requester.assistant_message == ''
+    assert requester.assistant_message == 'You are a concise assistant.'
     assert requester.temperature == 0.1
 
 

@@ -46,15 +46,15 @@ You'll get the following information from your Azure account, which you'll need 
 
 ## Usage
 
-The `AzureChatGPTRequester` class allows you to make requests to the Azure GPT model. Here's how you can use it:
+The `MsChatGPTRequester` class allows you to make requests to the Microsoft Azure GPT model. Here's how you can use it:
 
 ```python
 # Import the class
-from azure_chatgpt import AzureChatGPTRequester
+from ms_chatgpt import MsChatGPTRequester
 
 # Create an instance of the requester
-requester = AzureChatGPTRequester(
-    api_base='YOUR_API_BASE_URL',
+requester = MsChatGPTRequester(
+    api_uri='YOUR_API_URI',
     api_key='YOUR_API_KEY',
     api_version='YOUR_API_VERSION',
     deployment_name='YOUR_DEPLOYMENT_NAME',
@@ -67,10 +67,10 @@ print(response)
 
 ## Configuration
 
-You need to provide the following configuration parameters when creating an instance of `AzureChatGPTRequester`:
+You need to provide the following configuration parameters when creating an instance of `MsChatGPTRequester`:
 
 Mandatory:
-- `api_base`: Base URL of the GPT model in Azure.
+- `api_uri`: Base URI of the GPT model in Azure.
 - `api_key`: API key to access the GPT model.
 - `api_version`: Version of the GPT model.
 - `deployment_name`: Name of the deployment of the GPT model on Azure.
@@ -86,7 +86,7 @@ Optional:
 
 ## Retry Strategy
 
-The `AzureChatGPTRequester` class includes a retry strategy for handling timeouts when reaching the GPT model. It will retry a specified number of times with increasing sleep times between retries. If the maximum number of retries is reached and the GPT model is still unreachable, an exception will be raised.
+The `MsChatGPTRequester` class includes a retry strategy for handling timeouts when reaching the GPT model. It will retry a specified number of times with increasing sleep times between retries. If the maximum number of retries is reached and the GPT model is still unreachable, an exception will be raised.
 
 ## Methods
 
