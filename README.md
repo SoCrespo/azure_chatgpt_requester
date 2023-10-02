@@ -57,7 +57,7 @@ requester = Requester(
     api_uri='YOUR_API_URI',
     api_key='YOUR_API_KEY',
     api_version='YOUR_API_VERSION',
-    deployment_name='YOUR_DEPLOYMENT_NAME',
+    api_deployment_name='YOUR_DEPLOYMENT_NAME',
 )
 
 # Ask a question to the GPT model
