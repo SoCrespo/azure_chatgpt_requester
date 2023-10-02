@@ -1,8 +1,7 @@
 import pytest
 from unittest.mock import patch, Mock
 
-
-from simple_az_chatgpt_requester.src.ms_chatgpt import MsChatGPTRequester
+from ms_chatgpt_requester.src.ms_chatgpt.ms_chatgpt import MsChatGPTRequester
 
 # Helper function to create an MsChatGPTRequester instance for testing
 def create_requester():
