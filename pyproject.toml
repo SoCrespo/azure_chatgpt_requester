@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "ms_chatgpt"
+name = "ms-chatgpt"
 version='0.0.1'
 authors = [
 {name="SoCrespo", email="author@€xample.com"},
