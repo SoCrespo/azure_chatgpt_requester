@@ -1,6 +1,6 @@
-# Simple MS Azure ChatGPT Requester
+# Simple ChatGPT Requester
 
-This is a Python class for making requests to the Microsoft Azure ChatGPT model. It allows you to send a prompt and content to the API and get the response as string. 
+This is a Python class for making requests to ChatGPT. In the actual version, the API accessed is that of Azure OpenAI Chat GPT. It allows you to send a prompt and content to the API and get the response as string.
 
 Warning: as is, this code is stateless: it does not keep track of the conversation history. In other words, each request is independent from the previous ones. 
 
@@ -32,7 +32,7 @@ source ./.venv/bin/activate
     
 3. Install the library:
 ```bash
-pip install git+https://github.com/SoCrespo/ms_chatgpt_requester.git
+pip install git+https://github.com/SoCrespo/chatgpt_requester.git
 ```
 4. Create an Azure account and subscribe to the [Azure ChatGPT model](https://azure.microsoft.com/en-us/services/cognitive-services/chatbot/). You will need to create a resource group and a resource of type "Cognitive Services". You will also need to create a deployment of the GPT model. You can find more information on how to do this [here](https://learn.microsoft.com/fr-fr/azure/ai-services/openai/how-to/create-resource?pivots=web-portal#create-a-resource). Subscription to this service is submitted to application.
 
@@ -46,14 +46,14 @@ You'll get the following information from your Azure account, which you'll need 
 
 ## Usage
 
-The `MsChatGPTRequester` class allows you to make requests to the Microsoft Azure GPT model. Here's how you can use it:
+The `Requester` class allows you to make requests to chatGPT. Here's how you can use it:
 
 ```python
 # Import the class
-from ms_chatgpt import MsChatGPTRequester
+from chatgpt_requester.azure import Requester
 
 # Create an instance of the requester
-requester = MsChatGPTRequester(
+requester = Requester(
     api_uri='YOUR_API_URI',
     api_key='YOUR_API_KEY',
     api_version='YOUR_API_VERSION',
@@ -86,7 +86,7 @@ Optional:
 
 ## Retry Strategy
 
-The `MsChatGPTRequester` class includes a retry strategy for handling timeouts when reaching the GPT model. It will retry a specified number of times with increasing sleep times between retries. If the maximum number of retries is reached and the GPT model is still unreachable, an exception will be raised.
+The `Requester` class includes a retry strategy for handling timeouts when reaching the GPT model. It will retry a specified number of times with increasing sleep times between retries. If the maximum number of retries is reached and the GPT model is still unreachable, an exception will be raised.
 
 ## Methods
 

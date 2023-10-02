@@ -9,7 +9,7 @@ import requests
 logging.basicConfig(level=logging.INFO)
 
 
-class MsChatGPTRequester:
+class Requester:
     """
     Requester class for the Microsoft Azure GPT model.
     """
@@ -19,7 +19,7 @@ class MsChatGPTRequester:
         api_uri: str,
         api_key: str,
         api_version: str,
-        deployment_name: str,
+        api_deployment_name: str,
         assistant_message: str = "You are a concise assistant.",
         temperature: float = 0.1,
         timeout_connect=10,
@@ -35,7 +35,7 @@ class MsChatGPTRequester:
         - api_uri: base uri of the GPT model in Azure. Example: "https://my-open-ai-service.openai.azure.com/' 
         - api_key: key to access the GPT model.
         - api_version: version of the GPT model.
-        - deployment_name: name of the deployment of the GPT model on Azure.
+        - api_deployment_name: name of the deployment of the GPT model on Azure.
         
         Optional parameters:
         - assistant_message: optional prompt to GPT model to orientate the conversation tone. Default: "You are a concise assistant."
@@ -51,13 +51,13 @@ class MsChatGPTRequester:
         self.api_uri = api_uri
         self.api_key = api_key
         self.api_version = api_version
-        self.deployment_name = deployment_name
+        self.api_deployment_name = api_deployment_name
         self.assistant_message = assistant_message
         self.temperature = temperature
         self.timeout = (timeout_connect, timeout_read)
         self.initial_sleep_time = initial_sleep_time
         self.max_retries = max_retries
-        self.url = f"{self.api_uri}/openai/deployments/{self.deployment_name}/chat/completions?api-version={self.api_version}"
+        self.url = f"{self.api_uri}/openai/deployments/{self.api_deployment_name}/chat/completions?api-version={self.api_version}"
         self.headers = {"Content-Type": "application/json", "api-key": self.api_key}
         logging.info(f"Requester is ready.")
 
