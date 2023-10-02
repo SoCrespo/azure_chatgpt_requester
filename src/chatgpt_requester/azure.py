@@ -26,7 +26,6 @@ class Requester:
         timeout_read=60,
         initial_sleep_time=10,
         max_retries=3,
-        token_limit=4_096,
               ):
         """
         Initialize the class with the following parameters:
@@ -113,7 +112,7 @@ class Requester:
         """Straighforward request to the GPT model, no retry strategy on timeout. Return requests.Response object."""
         data = {
             "messages": [
-                {"role": "system", "content": "You are a concise assistant."},
+                {"role": "system", "content": self.assistant_message},
                 {"role": "user", "content": f"{text}"},
             ],
             "temperature": self.temperature,
