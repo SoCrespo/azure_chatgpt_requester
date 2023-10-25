@@ -61,66 +61,55 @@ class Requester:
         logging.info(f"Requester is ready.")
 
 
-    def _get_response(self, text: str) -> requests.Response:
-        """
-        Request the GPT model with a text. Return requests.Response object.
-        Retry strategy on timeout: self.max_retries times, with an initial sleep time of self.initial_sleep_time seconds.
-        On each retry, sleep time equals by self.initial_sleep_time seconds * retry number.
-        In case of errors where API cannot be reched (status code >= 400), retry with a random sleep time between 0
-        and self.initial_sleep_time seconds * retry number.
-
-        """
-        messages = [
-                {"role": "user", "content": f"{text}"},
-            ]
-        if self.assistant_message:
-            messages.insert(0, {"role": "system", "content": self.assistant_message})
-
-
-        data = {
-            "messages": messages,
-            "temperature": self.temperature,
-        }
-
-        retries = 0
-        while retries <= self.max_retries:
-            try:
-                response = requests.post(
-                    self.url,
-                    headers=self.headers,
-                    data=json.dumps(data),
-                    timeout=self.timeout,
-                )
-                response.raise_for_status()  # Raise an exception if there's an HTTP error
-                return response
-            except requests.exceptions.RequestException as e:
-                if retries == self.max_retries:
-                    raise Exception(
-                        f"{e} error. Max retries ({self.max_retries}) reached."
-                    )
-                else:
-                    retries += 1
-                    sleep_time = retries * self.initial_sleep_time
-                    logging.info(
-                        f"{e} error, sleeping for {sleep_time} seconds and retrying."
-                    )
-                    time.sleep(sleep_time)
-                    continue
-        return response
-
     def just_request(self, text: str) -> requests.Response:
         """Straighforward request to the GPT model, no retry strategy on timeout. Return requests.Response object."""
         data = {
             "messages": [
-                {"role": "system", "content": self.assistant_message},
                 {"role": "user", "content": f"{text}"},
             ],
             "temperature": self.temperature,
         }
+        if self.assistant_message:
+            data["messages"].insert(
+                0, {"role": "system", "content": self.assistant_message}
+            )
+    
         response = requests.post(
             self.url, headers=self.headers, data=json.dumps(data), timeout=self.timeout
         )
-        return response
+
+        if response.status_code < 400:
+            return response
+        
+        elif "tokens" in response.text:
+            raise ValueError(f"Error: too many tokens sent to the GPT model. The server answered: code {response.status_code} - {response.text}")
+        
+        else:
+            raise Exception(f"Error: the server answered: code {response.status_code} - {response.text}")
+    
+
+    def request_with_retry(self, text: str) -> requests.Response:
+        """
+        Request the GPT model with a text. Return requests.Response object.
+        Retry strategy on timeout: self.max_retries times, with an initial sleep time of self.initial_sleep_time seconds.
+        On each retry, sleep time equals by self.initial_sleep_time seconds * retry number.
+        The retry strategy is only applied in case of timeout.
+        """
+        retries = 0
+        while retries <= self.max_retries:
+            try:
+                response = self.just_request(text)
+                return response
+            except requests.exceptions.Timeout:
+                sleep_time = retries * self.initial_sleep_time
+                logging.info(
+                    f"Timeout error, sleeping for {sleep_time} seconds and retrying."
+                )
+                time.sleep(sleep_time)
+                retries += 1
+        raise TimeoutError(f"Too many retries, aborting.")
+
+
 
     def ask(self, text: str) -> str:
         """
@@ -128,10 +117,11 @@ class Requester:
         Retry strategy on timeout: self.max_retries times, with an initial sleep time of self.initial_sleep_time seconds.
         On each retry, sleep time equals by self.initial_sleep_time seconds * retry number.
         """
-        response = self._get_response(text)
-
+        response = self.request_with_retry(text)
         try:
-            result = response.json()["choices"][0]["message"]["content"]
+            answer = response.json()["choices"][0]["message"]["content"]
+            return answer
         except Exception as e:
-            result = f"----- Error code {response.status_code} - {e} on request: {response.text}"
-        return result
+            raise Exception(f"Error {e} when parsing API response to request. Here is the raw response: {response.json()}")
+
+

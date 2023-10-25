@@ -2,3 +2,5 @@
 .pytest_cache/
 .venv/
 .vscode/
+local_test_real_conditions.ipynb
+too_long_query.py
