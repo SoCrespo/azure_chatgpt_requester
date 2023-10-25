@@ -1,9 +1,9 @@
 import pytest
-from unittest.mock import patch, Mock
-from time import time
 import requests
+from time import time
+from unittest.mock import patch, Mock
 
-from chatgpt_requester.src.chatgpt_requester.azure import Requester
+from ..src.chatgpt_requester.azure import Requester
 
 json_content_OK = {"choices": [{"message": {"content": "Response text"}}]}
 json_content_too_many_tokens = {"error": {
@@ -17,7 +17,7 @@ json_content_other_error = {"error": "Bad Request"}
 
 timeout_connect=1
 timeout_read=3
-initial_sleep_time=5
+initial_sleep_time=0.1
 max_retries = 2
 
 # Helper function to create an Requester instance for testing
